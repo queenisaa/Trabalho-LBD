@@ -239,7 +239,7 @@ END $$
 DELIMITER ; 
 
 #Views
-#View para resumo das contas por cliente
+#Views para resumo das contas por cliente
 CREATE VIEW vw_resumo_contas AS 
 
 SELECT c.id_cliente, u.nome, COUNT(co.id_conta) AS total_contas, SUM(co.saldo) AS saldo_total 
