@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 /* Header fixo */
@@ -32,7 +32,8 @@ header {
   background-position: center;
 }
 
-.left-side, .right-side {
+.left-side,
+.right-side {
   width: 50%;
   display: flex;
   justify-content: center;
@@ -97,4 +98,110 @@ header {
 
 .btn:hover {
   opacity: 0.9;
+}
+
+/* Estilo para o formulário de login */
+.login-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #202020;
+}
+
+.login-form label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.login-form input {
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.login-form button {
+  padding: 12px;
+  background-color: #202020;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #000000;
+}
+
+/* Mensagens de feedback */
+ul {
+  margin-top: 15px;
+  padding: 0;
+  list-style: none;
+}
+
+ul li.success {
+  color: green;
+  font-weight: bold;
+}
+
+ul li.danger {
+  color: red;
+  font-weight: bold;
+}
+
+/* Lado esquerdo menor na página de login */
+.login-layout .left-side.small-left {
+  width: 30%;
+}
+
+/* Aumenta o lado direito para o formulário ocupar melhor o espaço */
+.login-layout .right-side {
+  width: 70%;
+}
+
+.login-form input,
+.login-form button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-form input:hover,
+.login-form input:focus {
+  transform: scale(1.03);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.logo a.logo-link {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #202020;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logo a.logo-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
