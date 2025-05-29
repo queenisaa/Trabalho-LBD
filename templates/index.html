@@ -1,38 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Banco Malvader - Início</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='darth.png') }}">
-</head>
-<body>
-  <!-- Header fixo no topo -->
-  <header>
-    <div class="logo">
-    <img src="{{ url_for('static', filename='darth.png') }}" alt="Darth Vader" class="logo-icon">
-    Banco Malvader
-  </div>
-  </header>
-
-  <!-- Container horizontal dividido em duas partes -->
-  <main class="horizontal-container">
-    <!-- Lado esquerdo -->
-    <div class="left-side">
-      <div class="welcome-box">
-        <h1>Bem-vindo!</h1>
-        <p>Acesse o sistema de forma segura com autenticação criptografada.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Banco Malvader - Início</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='darth.png') }}"
+    />
+  </head>
+  <body>
+    <!-- Header fixo no topo -->
+    <header>
+      <div class="logo">
+        <a href="{{ url_for('index') }}" class="logo-link">
+          <img
+            src="{{ url_for('static', filename='darth.png') }}"
+            alt="Darth Vader"
+            class="logo-icon"
+          />
+          Banco Malvader
+        </a>
       </div>
-    </div>
+    </header>
 
-    <!-- Lado direito -->
-    <div class="right-side">
-      <div class="access-box">
-        <h2>Escolha o tipo de acesso</h2>
-        <a href="{{ url_for('login_cliente') }}" class="btn blue">Login Cliente</a>
-        <a href="{{ url_for('login_funcionario') }}" class="btn gray">Login Funcionário</a>
+    <!-- Container horizontal dividido em duas partes -->
+    <main class="horizontal-container">
+      <!-- Lado esquerdo -->
+      <div class="left-side">
+        <div class="welcome-box">
+          <h1>Bem-vindo!</h1>
+          <p>
+            Acesse o sistema de forma segura com autenticação criptografada.
+          </p>
+        </div>
       </div>
-    </div>
-  </main>
-</body>
+
+      <!-- Lado direito -->
+      <div class="right-side">
+        <div class="access-box">
+          <h2>Escolha o tipo de acesso</h2>
+          <a href="{{ url_for('login_cliente') }}" class="btn blue"
+            >Login Cliente</a
+          >
+          <a href="{{ url_for('login_funcionario') }}" class="btn gray"
+            >Login Funcionário</a
+          >
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
