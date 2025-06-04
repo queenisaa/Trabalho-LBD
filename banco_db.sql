@@ -306,3 +306,8 @@ DROP ROLE 'gerente';
 
 #Dropar usuario
 drop user 'carlos'@'localhost';
+
+
+#Instalar flask: pip install flask
+#instalar as extensoes:pip install flask flask_sqlalchemy pymysql
+#rodar app: python app.py
