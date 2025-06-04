@@ -7,6 +7,7 @@ id_usuario int primary key auto_increment,
 nome VARCHAR(100) NOT NULL,
 CPF VARCHAR(100) UNIQUE NOT NULL,
 data_nascimento date not null,
+email VARCHAR(50) not null,
 telefone VARCHAR(15) not null,
 tipo_usuario ENUM('Funcionario', 'Cliente') not null,
 senha_hash VARCHAR(32) NOT NULL, 
@@ -18,6 +19,7 @@ create table funcionario(
 id_funcionario int primary key auto_increment,
 codigo_funcionario VARCHAR(20) unique not null,
 cargo ENUM('Estagiario', 'Atendente', 'Gerente') not null,
+email VARCHAR(50) not null,
 id_supervisor int not null,
 id_usuario int not null,
 CONSTRAINT id_supervisor foreign key (id_funcionario) references funcionario(id_funcionario),
@@ -27,6 +29,7 @@ CONSTRAINT id_usuario foreign key (id_usuario) references cliente(id_cliente)
 create table cliente(
 id_cliente int primary key auto_increment,
 score_credito decimal (5,2) default 0,
+email varchar(50) not null,
 id_usuario int not null,
 CONSTRAINT id_usuario foreign key (id_usuario) references usuario(id_usuario)
 );
