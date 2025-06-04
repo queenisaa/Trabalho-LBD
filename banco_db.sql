@@ -1,4 +1,3 @@
-#Atalhos
 create database banco_db;
 use banco_db;
 
@@ -19,6 +18,8 @@ create table funcionario(
 id_funcionario int primary key auto_increment,
 codigo_funcionario VARCHAR(20) unique not null,
 cargo ENUM('Estagiario', 'Atendente', 'Gerente') not null,
+id_supervisor int not null,
+id_usuario int not null,
 CONSTRAINT id_supervisor foreign key (id_funcionario) references funcionario(id_funcionario),
 CONSTRAINT id_usuario foreign key (id_usuario) references cliente(id_cliente)
 );
@@ -26,6 +27,7 @@ CONSTRAINT id_usuario foreign key (id_usuario) references cliente(id_cliente)
 create table cliente(
 id_cliente int primary key auto_increment,
 score_credito decimal (5,2) default 0,
+id_usuario int not null,
 CONSTRAINT id_usuario foreign key (id_usuario) references usuario(id_usuario)
 );
 
@@ -44,6 +46,7 @@ create table agencia(
 id_agencia int primary key auto_increment,
 nome VARCHAR(50) not null,
 codigo_agencia varchar(10) unique not null,
+id_endereco int not null,
 CONSTRAINT id_endereco foreign key (id_endereco) references endereco (id_endereco) 
 );
 
@@ -53,6 +56,8 @@ numero_conta VARCHAR(20) unique not null,
 saldo decimal(15,2) not null default 0,
 tipo_conta ENUM('Poupanca', 'Corrente', 'Investimento') not null,
 data_abertura datetime not null default current_timestamp,
+id_agencia int not null,
+id_cliente int not null,
 status enum('Ativa', 'Encerrada', 'Bloqueada') not null default 'Ativa',
 CONSTrAINT id_agencia foreign key (id_agencia) references agencia(id_agencia),
 CONSTRAINT id_cliente foreign key (id_cliente) references cliente(id_cliente)
@@ -63,6 +68,7 @@ create table conta_poupanca(
 id_conta_poupanca int primary key auto_increment,
 taxa_rendimento decimal (5,2) not null,
 ultimo_rendimento datetime,
+id_conta int not null,
 constraint id_conta foreign key (id_conta) references conta(id_conta)  
 );
 
@@ -71,6 +77,7 @@ id_conta_corrente int primary key auto_increment,
 limite decimal(5,2) not null default 0,
 data_vencimento date not null,
 taxa_manutencao decimal (5,2) not null default 0,
+id_conta int not null,
 constraint id_conta foreign key (id_conta) references conta(id_conta)
 );
 
@@ -79,6 +86,7 @@ id_conta_investimento int primary key auto_increment,
 perfil_risco enum('Baixo', 'Medio', 'Alta') not null,
 valor_minimo decimal (15,2) not null,
 taxa_rendimento_base decimal (5,2) not null,
+id_conta int not null,
 constraint id_conta foreign key (id_conta) references conta(id_conta)
 );
 
@@ -88,6 +96,8 @@ tipo_transacao enum('Deposito', 'Saque', 'Transferencia', 'Taxa', 'Rendimento') 
 valor decimal (15,2) not null,
 data_hora timestamp not null default current_timestamp,
 descricao VARCHAR(100),
+id_conta_origem int not null,
+id_conta_destino int not null,
 constraint id_conta_origem foreign key (id_conta) references conta(id_conta),
 constraint id_conta_destino foreign key (id_conta) references conta(id_conta)
 #Indice em data_hora
@@ -98,6 +108,7 @@ id_auditoria int not null auto_increment,
 acao varchar(50) not null,
 data_hora timestamp not null default current_timestamp,
 detalhes text, 
+id_usuario int not null,
 constraint id_usuario foreign key (id_usuario) references usuario(id_usuario)
 );
 
@@ -106,6 +117,7 @@ id_relatorio int primary key auto_increment,
 tipo_relatorio varchar(50) not null,
 data_geracao timestamp not null default current_timestamp,
 conteudo text not null,
+id_funcionario int not null,
 constraint id_funcionario foreign key (id_funcionario) references funcionario(id_funcionario) 
 );
 
