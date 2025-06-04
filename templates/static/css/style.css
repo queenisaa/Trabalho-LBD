@@ -1,0 +1,211 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Header fixo */
+header {
+  background-color: #ffffff;
+  padding: 20px 40px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #202020;
+}
+
+.logo-icon {
+  height: 32px;
+  margin-right: 10px;
+}
+
+/* Container horizontal: duas metades */
+.horizontal-container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background-image: url("/static/img/background.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.left-side {
+  transition: width 0.5s ease;
+}
+
+.left-side,
+.right-side {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Lado esquerdo (texto de boas-vindas) */
+.left-side {
+  color: white;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Caixa dentro da esquerda */
+.welcome-box h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.welcome-box p {
+  font-size: 18px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Lado direito (botões) */
+.right-side {
+  background-color: #f4f4f4;
+  flex-direction: column;
+}
+
+.access-box {
+  text-align: center;
+}
+
+.access-box h2 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Botões */
+.btn {
+  padding: 15px 30px;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  margin: 10px;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.btn.blue {
+  background-color: #202020;
+  color: white;
+}
+
+.btn.gray {
+  background-color: #4e5255;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Estilo para o formulário de login */
+.login-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #202020;
+}
+
+.login-form label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.login-form input {
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.login-form button {
+  padding: 12px;
+  background-color: #202020;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #000000;
+}
+
+/* Mensagens de feedback */
+ul {
+  margin-top: 15px;
+  padding: 0;
+  list-style: none;
+}
+
+ul li.success {
+  color: green;
+  font-weight: bold;
+}
+
+ul li.danger {
+  color: red;
+  font-weight: bold;
+}
+
+/* Lado esquerdo menor na página de login */
+.login-layout .left-side.small-left {
+  width: 30%;
+}
+
+/* Aumenta o lado direito para o formulário ocupar melhor o espaço */
+.login-layout .right-side {
+  width: 50%;
+}
+
+.login-form input,
+.login-form button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-form input:hover,
+.login-form input:focus {
+  transform: scale(1.03);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.logo a.logo-link {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #202020;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logo a.logo-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

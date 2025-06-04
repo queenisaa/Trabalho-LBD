@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Banco Malvader - Dashboard Funcionário</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="{{ url_for('index') }}" class="logo-link">
+        <img src="{{ url_for('static', filename='img/darth.png') }}" 
+             alt="Darth Vader" class="logo-icon" />
+        Banco Malvader
+      </a>
+    </div>
+    <nav>
+      <a href="{{ url_for('logout') }}" class="btn red">Logout</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-container">
+    <h1>Olá, {{ nome_usuario }}!</h1>
+    <p>Seu cargo atualmente é: <strong>{{ cargo }}</strong></p>
+
+    <!-- Aqui, você pode incluir funcionalidades de funcionário, 
+         como criação de clientes, geração de relatórios etc. -->
+    <section class="funcionario-info">
+      <h2>Menu do Funcionário</h2>
+      <!-- Links ou botões para tarefas de funcionário -->
+      <!-- ... -->
+    </section>
+  </main>
+</body>
+</html>
