@@ -2,34 +2,49 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Banco Malvader - Dashboard Funcionário</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Malvader - Área do Funcionário</title>
+  
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_funcionario.css') }}" />
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <a href="{{ url_for('index') }}" class="logo-link">
-        <img src="{{ url_for('static', filename='img/darth.png') }}" 
-             alt="Darth Vader" class="logo-icon" />
-        Banco Malvader
-      </a>
-    </div>
-    <nav>
-      <a href="{{ url_for('logout') }}" class="btn red">Logout</a>
-    </nav>
-  </header>
+  
+  {% include 'components/header.html' %}
 
-  <main class="dashboard-container">
-    <h1>Olá, {{ nome_usuario }}!</h1>
-    <p>Seu cargo atualmente é: <strong>{{ cargo }}</strong></p>
+  <main class="container-home">
+    
+    {% include 'components/menu_lateral_funcionario.html' %}
 
-    <!-- Aqui, você pode incluir funcionalidades de funcionário, 
-         como criação de clientes, geração de relatórios etc. -->
-    <section class="funcionario-info">
-      <h2>Menu do Funcionário</h2>
-      <!-- Links ou botões para tarefas de funcionário -->
-      <!-- ... -->
+    <section class="conteudo-principal">
+      <h1>Painel de Controle, {{ nome_usuario }}!</h1>
+      <p>Selecione uma das operações abaixo para começar. (Cargo: {{ cargo }})</p>
+
+      <div class="card">
+        <h2>Gerenciamento de Contas</h2>
+        <div class="atalhos">
+          <a href="#" class="btn-atalho">Nova Abertura de Conta (CP, CC, CI)</a>
+          <a href="#" class="btn-atalho">Solicitar Encerramento de Conta</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Administrativo e Consultas</h2>
+        <div class="atalhos">
+          <a href="#" class="btn-atalho">Consultar Dados (Cliente/Conta)</a>
+          <a href="#" class="btn-atalho">Alterar Dados (Cliente/Conta)</a>
+          <a href="#" class="btn-atalho">Cadastrar Novo Funcionário</a>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>Análises e Relatórios</h2>
+        <div class="atalhos">
+            <a href="#" class="btn-atalho">Gerar Relatório Gerencial (PDF/Excel)</a>
+        </div>
+      </div>
+
     </section>
   </main>
 </body>

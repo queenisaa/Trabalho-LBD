@@ -1,21 +1,45 @@
+:root {
+  --cor-primaria: #202020;
+  --cor-secundaria: #4e5255;
+  --cor-fundo-claro: #f4f4f4;
+  --cor-branco: #ffffff;
+  --cor-texto: #333;
+  --cor-perigo: #d9534f;
+  --cor-sucesso: #1a8917;
+  --sombra-padrao: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --borda-raio: 8px;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
+  background-color: var(--cor-fundo-claro);
+  color: var(--cor-texto);
 }
 
-/* Header fixo */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 header {
-  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--cor-branco);
   padding: 20px 40px;
   border-bottom: 1px solid #ddd;
+  box-shadow: var(--sombra-padrao);
+  height: 85px;
+  box-sizing: border-box;
 }
 
-.logo {
+.logo-link {
   display: flex;
   align-items: center;
   font-size: 24px;
   font-weight: bold;
-  color: #202020;
+  color: var(--cor-primaria);
 }
 
 .logo-icon {
@@ -23,189 +47,112 @@ header {
   margin-right: 10px;
 }
 
-/* Container horizontal: duas metades */
-.horizontal-container {
+.container-home {
   display: flex;
-  height: calc(100vh - 80px);
-  background-image: url("/static/img/background.png");
-  background-size: cover;
-  background-position: center;
+  height: calc(100vh - 85px);
 }
 
-.left-side {
-  transition: width 0.5s ease;
+.menu-lateral {
+  width: 240px;
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.left-side,
-.right-side {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.menu-lateral ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-lateral a {
+  display: block;
+  padding: 15px 25px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.menu-lateral a:hover {
+  background-color: #333;
+  border-left-color: var(--cor-secundaria);
+}
+
+.logout-link {
+  padding: 20px 25px;
+  border-top: 1px solid var(--cor-secundaria);
+}
+
+.conteudo-principal {
+  flex: 1;
   padding: 40px;
+  overflow-y: auto;
 }
 
-/* Lado esquerdo (texto de boas-vindas) */
-.left-side {
-  color: white;
-  flex-direction: column;
-  text-align: center;
+.conteudo-principal h1 {
+  font-size: 28px;
+  margin: 0 0 10px 0;
+  color: var(--cor-primaria);
 }
 
-/* Caixa dentro da esquerda */
-.welcome-box h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.welcome-box p {
-  font-size: 18px;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-/* Lado direito (botões) */
-.right-side {
-  background-color: #f4f4f4;
-  flex-direction: column;
-}
-
-.access-box {
-  text-align: center;
-}
-
-.access-box h2 {
-  margin-bottom: 30px;
-  color: #333;
-}
-
-/* Botões */
-.btn {
-  padding: 15px 30px;
-  text-decoration: none;
+.conteudo-principal p {
+  margin: 0 0 30px 0;
   font-size: 16px;
-  border-radius: 5px;
-  margin: 10px;
+}
+
+.card {
+  background-color: var(--cor-branco);
+  padding: 25px;
+  border-radius: var(--borda-raio);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  margin: 0 0 20px 0;
+  color: var(--cor-primaria);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.atalhos {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-atalho {
+  background-color: var(--cor-primaria);
+  color: white;
+  padding: 12px 22px;
+  border-radius: var(--borda-raio);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-atalho:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
   display: inline-block;
-  transition: background 0.3s ease;
-}
-
-.btn.blue {
-  background-color: #202020;
-  color: white;
-}
-
-.btn.gray {
-  background-color: #4e5255;
-  color: white;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
   opacity: 0.9;
-}
-
-/* Estilo para o formulário de login */
-.login-form {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-}
-
-.login-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #202020;
-}
-
-.login-form label {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #333;
-  text-align: left;
-}
-
-.login-form input {
-  padding: 10px;
-  margin-top: 6px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  width: 100%;
-}
-
-.login-form button {
-  padding: 12px;
-  background-color: #202020;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  margin-top: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-form button:hover {
-  background-color: #000000;
-}
-
-/* Mensagens de feedback */
-ul {
-  margin-top: 15px;
-  padding: 0;
-  list-style: none;
-}
-
-ul li.success {
-  color: green;
-  font-weight: bold;
-}
-
-ul li.danger {
-  color: red;
-  font-weight: bold;
-}
-
-/* Lado esquerdo menor na página de login */
-.login-layout .left-side.small-left {
-  width: 30%;
-}
-
-/* Aumenta o lado direito para o formulário ocupar melhor o espaço */
-.login-layout .right-side {
-  width: 50%;
-}
-
-.login-form input,
-.login-form button {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.login-form input:hover,
-.login-form input:focus {
-  transform: scale(1.03);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  outline: none;
-}
-
-.logo a.logo-link {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #202020;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.logo a.logo-link:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }

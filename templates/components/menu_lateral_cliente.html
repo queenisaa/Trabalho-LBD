@@ -1,0 +1,45 @@
+<nav class="menu-lateral">
+    <div class="menu-links">
+        <ul>
+            <li>
+                <a href="{{ url_for('main.dashboard_cliente') }}"
+                    class="{{ 'active' if request.endpoint == 'main.dashboard_cliente' else '' }}">
+                    Minha Conta
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.extrato') }}"
+                   class="{{ 'active' if request.endpoint == 'main.extrato' else '' }}">
+                   Saldo e Extrato
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.deposito') }}"
+                    class="{{ 'active' if request.endpoint == 'main.deposito' else '' }}">
+                    Depósito
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.saque') }}"
+                    class="{{ 'active' if request.endpoint == 'main.saque' else '' }}">
+                    Saque
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.transferencia') }}"
+                    class="{{ 'active' if request.endpoint == 'main.transferencia' else '' }}">
+                    Transferência
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.limite') }}"
+                   class="{{ 'active' if request.endpoint == 'main.limite' else '' }}">
+                   Consultar Limite
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="logout-link">
+        <a href="{{ url_for('main.logout') }}">Encerrar Sessão</a>
+    </div>
+</nav>

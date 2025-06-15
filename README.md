@@ -10,23 +10,24 @@ Criar uma aplicação bancária com interface gráfica e persistência em banco 
 
 - **Back-end**: Python + Flask
 - **Banco de Dados**: MySQL 8.x
-- **ORM/Conexão**: SQLAlchemy / PyMySQL (ou equivalente)
-- **Front-end**: HTML/CSS/JS (via Flask) ou interface desktop opcional
-- **Exportação**: PDF / Excel (via bibliotecas Python)
-- **Segurança**: OTP (One-Time Password), hash MD5, triggers e validações no banco
+- **ORM/Conexão**: SQLAlchemy / PyMySQL
+- **Front-end**: HTML, CSS, Jinja2
+- **E-mails OTP**: Google Gmail API
+- **Segurança**: OTP (One-Time Password), hash seguro de senhas (Werkzeug), validações no banco de dados.
 
 ## 🧱 Estrutura do Projeto
 
-| Arquivo/Pasta      | Descrição                                          |
-| ------------------ | -------------------------------------------------- |
-| `app.py`           | Controlador principal (rotas Flask)                |
-| `config.py`        | Configurações do banco de dados                    |
-| `models.py`        | Modelos de dados (SQLAlchemy)                      |
-| `templates/`       | Vistas (arquivos HTML Jinja2)                      |
-| `templates/index.html`    |                                             |
-| `templates/add_task.html` |                                             |
-| `static/style.css` | Arquivos estáticos (CSS, JS, imagens)              |
+| Arquivo/Pasta | Descrição |
+| :--- | :--- |
+| `app.py` | Controlador principal com as rotas Flask. |
+| `config.py` | Configurações da aplicação e do banco de dados. |
+| `models.py` | Modelos de dados (tabelas) usando SQLAlchemy. |
+| `requirements.txt` | Lista de todas as dependências Python para instalação. |
+| **`templates/`** | **Pasta com todos os arquivos HTML (vistas).** |
+| **`templates/components/`** | **Componentes reutilizáveis incluídos nas páginas.**|
+| **`static/`**| **Pasta com arquivos estáticos (CSS, JS, imagens).** |
 
+---
 
 ## 🔐 Funcionalidades Principais
 
@@ -53,8 +54,58 @@ Estrutura relacional com:
 - Views (resumo de contas, movimentações recentes)
 - Índices e constraints para garantir desempenho e integridade
 
+## 🚀 Configuração e Execução
+- Siga os passos abaixo para rodar o projeto. É necessário ter o Python e o MySQL instalados na máquina.
+
+### Passo 1: Instalação das Dependências
+Abra o terminal na pasta raiz do projeto e instale todas as bibliotecas listadas no arquivo `requirements.txt` com o seguinte comando:
+```bash
+pip install -r requirements.txt
+```
+
+### Passo 2: Configuração do Banco de Dados
+Para a aplicação funcionar, ela precisa se conectar a um banco de dados MySQL.
+
+#### Crie o Banco de Dados:
+Abra o MySQL Workbench e execute o seguinte comando para criar o banco de dados vazio que será usado pela aplicação:
+```bash
+CREATE DATABASE banco_db;
+```
+
+#### Ajuste a Senha de Conexão:
+Abra o arquivo config.py no seu editor de código. Localize a linha SQLALCHEMY_DATABASE_URI e altere a senha para a mesma que você usa no seu MySQL Workbench.
+
+Exemplo no arquivo config.py:
+Altere "sua_senha_aqui" para a sua senha do usuário 'root' do MySQL
+```bash
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    "DATABASE_URL",
+    "mysql+pymysql://root:sua_senha_aqui@localhost/banco_db" 
+)
+```
+
+#### Crie as Tabelas:
+Volte para o terminal (na pasta do projeto) e rode o comando abaixo. Ele usará a conexão que você configurou para criar todas as tabelas da aplicação automaticamente.
+```bash
+flask db upgrade
+```
+
+#### Popule o Banco (Seed):
+Para ter dados iniciais para teste (como um usuário admin e um cliente), rode o comando a seguir. Ele irá inserir esses dados nas tabelas que acabaram de ser criadas.
+```bash
+python seed.py
+```
+
+### Passo 3: Executar a Aplicação
+Com tudo configurado, inicie o servidor Flask com o comando:
+```bash
+flask run
+```
+
+A aplicação estará disponível no seu navegador no endereço http://127.0.0.1:5000.
+
 ## 👩🏻‍💻 Desenvolvedores
 
 - Isabela Martins Bandeira
 - Natália Ematné Kruchak
-- Nathanael Magno
+- Nathanael Victor Paiva Magno

@@ -1,36 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Banco Malvader - Dashboard Cliente</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Malvader - Área do Cliente</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_cliente.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/transferencia.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
 </head>
+
 <body>
-  <header>
-    <div class="logo">
-      <a href="{{ url_for('index') }}" class="logo-link">
-        <img src="{{ url_for('static', filename='img/darth.png') }}" 
-             alt="Darth Vader" class="logo-icon" />
-        Banco Malvader
-      </a>
-    </div>
-    <nav>
-      <a href="{{ url_for('logout') }}" class="btn red">Logout</a>
-    </nav>
-  </header>
+    {% include 'components/header.html' %}
+    <main class="container-home">
+        {% include 'components/menu_lateral_cliente.html' %}
+        <section class="conteudo-principal">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-  <main class="dashboard-container">
-    <h1>Olá, {{ nome_usuario }}!</h1>
-    <p>Seu score de crédito atual é: <strong>{{ score_credito }}</strong></p>
+            <h1>Bem-vindo, {{ nome_usuario }}!</h1>
+            <p>Aqui está o resumo da sua conta.</p>
 
-    <!-- Aqui você pode adicionar mais seções específicas para o cliente, 
-         como lista de contas, últimas transações etc. -->
-    <section class="cliente-info">
-      <h2>Suas Contas</h2>
-      <!-- Exemplo de tabela ou cards das contas do cliente -->
-      <!-- ... -->
-    </section>
-  </main>
+            <div class="card">
+                <h2>Seu Saldo Atual</h2>
+                <div class="saldo-disponivel">
+                    {{ "R$ {:,.2f}".format(saldo | float).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                </div>
+                {% if tipo_conta == 'Corrente' and detalhes_conta %}
+                <div class="detalhe-conta">
+                    <span>Limite Cheque Especial:</span>
+                    <strong class="limite-valor">
+                        R$ {{ "%.2f"|format(detalhes_conta.limite_cheque_especial) }}
+                    </strong>
+                </div>
+                {% elif tipo_conta == 'Poupanca' and detalhes_conta %}
+                <div class="detalhe-conta">
+                    <span>Rendimento Anual:</span>
+                    <strong class="rendimento-valor">
+                        {{ "%.2f"|format(detalhes_conta.taxa_rendimento * 100) }}%
+                    </strong>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h2>Ações Rápidas</h2>
+                <div class="atalhos">
+                    <a href="{{ url_for('main.transferencia') }}" class="btn-atalho">Fazer Transferência</a>
+                    <a href="{{ url_for('main.deposito') }}" class="btn-atalho">Realizar Depósito</a>
+                    <a href="{{ url_for('main.saque') }}" class="btn-atalho">Efetuar Saque</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Últimas Movimentações</h2>
+                <ul class="movimentacoes">
+                    {% for t in transacoes %}
+                        {% if t.id_conta_origem == conta_id %}
+                            <li class="saida">
+                                <span class="descricao-transacao">
+                                    {% if t.tipo_transacao == 'Transferencia' %}
+                                        Transferência para {{ t.conta_destino.cliente.usuario.nome }}
+                                    {% else %}
+                                        {{ t.descricao }}
+                                    {% endif %}
+                                </span>
+                                <span>- R$ {{ "%.2f"|format(t.valor) }}</span>
+                            </li>
+                        {% else %}
+                            <li class="entrada">
+                                <span class="descricao-transacao">
+                                    {% if t.tipo_transacao == 'Transferencia' %}
+                                        Transferência de {{ t.conta_origem.cliente.usuario.nome }}
+                                    {% else %}
+                                        {{ t.descricao }}
+                                    {% endif %}
+                                </span>
+                                <span>+ R$ {{ "%.2f"|format(t.valor) }}</span>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li style="justify-content: center;">Nenhuma movimentação recente.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </main>
 </body>
+
 </html>

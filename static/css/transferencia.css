@@ -1,0 +1,57 @@
+.form-transferencia {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--cor-texto);
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: var(--borda-raio);
+    font-size: 16px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(32, 32, 32, 0.2);
+}
+
+.saldo-disponivel {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--cor-sucesso);
+}
+
+.saldo-disponivel span {
+    font-weight: bold;
+    color: var(--cor-texto);
+}
+
+.form-transferencia .btn {
+    align-self: flex-start; 
+    margin-top: 10px;
+}
+
+.btn-transferir {
+    background-color: var(--cor-sucesso);
+    color: var(--cor-branco);
+}
+
+.btn-saque {
+    background-color: var(--cor-perigo);
+    color: var(--cor-branco);
+}
