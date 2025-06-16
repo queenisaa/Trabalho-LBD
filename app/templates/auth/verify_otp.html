@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Banco Malvader - Verificação</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-link">
+        <img src="{{ url_for('static', filename='img/darth.png') }}" alt="Darth Vader" class="logo-icon" /> Banco Malvader
+      </div>
+    </div>
+  </header>
+  <main class="horizontal-container">
+    <div class="left-side">
+      <div class="welcome-box">
+        <h1>Verificação de Segurança</h1>
+        <p>Um código de 6 dígitos foi enviado para o seu e-mail. Insira-o abaixo para concluir o login.</p>
+      </div>
+    </div>
+    <div class="right-side">
+      <form class="login-form" method="POST" action="{{ url_for('auth.verify_otp') }}">
+        <h2>Insira o Código OTP</h2>
+        <label>Código de 6 dígitos:</label>
+        <input type="text" name="otp" required maxlength="6" pattern="\d{6}" title="O código deve ter 6 números." 
+               style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem; margin-bottom: 20px;" 
+               autocomplete="one-time-code" />
+        <button type="submit" class="btn blue" style="width: 100%;">Verificar</button>
+        {% with messages = get_flashed_messages(category_filter=["danger"]) %}
+          {% if messages %}
+            <ul class="flashed-messages">
+              {% for message in messages %}
+                <li class="danger">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+      </form>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Banco Malvader - Início</title>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
 </head>
+
 <body>
-  <header>
-    <div class="logo">
-      <a href="#" class="logo-link">
-        <img src="{{ url_for('static', filename='img/darth.png') }}" 
-             alt="Darth Vader" class="logo-icon" />
-        Banco Malvader
-      </a>
-    </div>
-  </header>
+
+  {% include 'components/header.html' %}
 
   <main class="horizontal-container">
-    <!-- Lado esquerdo -->
     <div class="left-side">
       <div class="welcome-box">
-        <h1>Bem-vindo!</h1>
-        <p>Acesse o sistema de forma segura com autenticação criptografada.</p>
+        <h1>Bem-vindo ao Lado Sombrio das Finanças!</h1>
+        <p>Acesse o sistema de forma segura com autenticação criptografada e domine seu império financeiro.</p>
       </div>
     </div>
 
-    <!-- Lado direito -->
     <div class="right-side">
-      <!-- Botões de seleção de login -->
       <div class="access-box" id="botoes-acesso">
         <h2>Escolha o tipo de acesso</h2>
         <a id="botaoCliente" class="btn blue" href="#" onclick="showLoginForm('Cliente')">Login Cliente</a>
         <a id="botaoFuncionario" class="btn gray" href="#" onclick="showLoginForm('Funcionario')">Login Funcionário</a>
       </div>
 
-      <!-- Formulário de login (oculto por padrão) -->
-      <form class="login-form" method="POST" id="form-login" action="{{ url_for('login') }}" style="display: none;">
+      <form class="login-form" method="POST" id="form-login" action="{{ url_for('auth.login') }}" style="display: none;">
+
+        <a id="botao-voltar" onclick="showAccessChoice()">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+          </svg>
+        </a>
         <h2 id="form-titulo">Login</h2>
         <input type="hidden" name="tipo" id="tipo" value="" />
 
@@ -46,16 +48,16 @@
         <label>Senha:</label>
         <input type="password" name="senha" required />
 
-        <button type="submit">Entrar</button>
+        <button type="submit" class="btn">Entrar</button>
 
         {% with messages = get_flashed_messages(category_filter=["danger"]) %}
-          {% if messages %}
-            <ul>
-              {% for message in messages %}
-                <li class="danger">{{ message }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
+        {% if messages %}
+        <ul class="flashed-messages">
+          {% for message in messages %}
+          <li class="danger">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
         {% endwith %}
       </form>
     </div>
@@ -63,4 +65,5 @@
 
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
+
 </html>

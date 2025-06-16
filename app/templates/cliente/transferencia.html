@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferência - Banco Malvader</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_cliente.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/transferencia.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+
+<body>
+
+    {% include 'components/header.html' %}
+
+    <main class="container-home">
+
+        {% include 'components/menu_lateral_cliente.html' %}
+
+        <section class="conteudo-principal">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>Realizar Transferência</h1>
+            <p>Envie dinheiro para outra conta do Banco Malvader de forma rápida e segura.</p>
+
+            <div class="card">
+                <h2>Dados da Transferência</h2>
+
+                <div class="saldo-disponivel">
+                    <span>Saldo disponível:</span>
+                    {{ "R$ {:,.2f}".format(saldo | float).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                </div>
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+                <form class="form-transferencia" method="POST" action="{{ url_for('cliente.transferencia') }}">
+                    <div class="form-group">
+                        <label for="numero_conta_destino">Número da Conta de Destino</label>
+                        <input type="text" id="numero_conta_destino" name="numero_conta_destino"
+                            placeholder="Digite o número da conta" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor">Valor a Transferir (R$)</label>
+                        <input type="text" id="valor" name="valor" placeholder="0,00" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-transferir">Confirmar Transferência</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

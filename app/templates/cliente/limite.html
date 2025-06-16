@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Limite - Banco Malvader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_cliente.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/limite.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+    {% include 'components/header.html' %}
+    <main class="container-home">
+        {% include 'components/menu_lateral_cliente.html' %}
+        <section class="conteudo-principal">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>Consulta de Limite de Crédito</h1>
+            <p>Veja seu limite atual e a projeção de aumento com base no seu perfil.</p>
+
+            <div class="card">
+                <h2>Seu Perfil de Crédito</h2>
+                <div class="perfil-info">
+                    <strong>Score de Crédito:</strong>
+                    <span class="score">{{ score_credito | int }}</span>
+                </div>
+                <p class="info-text">Seu score é calculado com base no seu histórico de movimentações e pagamentos. Mantenha um bom score para obter melhores condições.</p>
+            </div>
+
+            <div class="limites-container">
+                <div class="card card-limite">
+                    <h2>Limite Atual</h2>
+                    <p class="valor-limite">
+                        {{ "R$ {:,.2f}".format(limite_atual | float).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                    </p>
+                    <small>Este é o valor pré-aprovado para suas compras no crédito.</small>
+                </div>
+
+                <div class="card card-limite">
+                    <h2>Projeção de Aumento</h2>
+                    <p class="valor-limite projecao">
+                        {{ "R$ {:,.2f}".format(limite_projecao | float).replace(',', 'X').replace('.', ',').replace('X', '.') }}
+                    </p>
+                    <small>Projeção de limite futuro se você mantiver um bom relacionamento com o banco.</small>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

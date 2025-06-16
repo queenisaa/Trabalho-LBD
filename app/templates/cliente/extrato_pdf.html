@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Extrato da Conta - {{ cliente.usuario.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/extrato_pdf.css') }}">
+</head>
+<body onload="window.print()">
+    <h1>Extrato da Conta - Banco Malvader</h1>
+    <h2>Cliente: {{ cliente.usuario.nome }}</h2>
+    <p>Conta: {{ conta.numero_conta }}</p>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th class="valor">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transacoes %}
+            <tr>
+                <td>{{ t.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ t.tipo_transacao }}</td>
+                <td>{{ t.descricao or ''}}</td>
+                {% if t.id_conta_origem == conta.id_conta %}
+                    <td class="valor saida">- R$ {{ "%.2f"|format(t.valor) }}</td>
+                {% else %}
+                    <td class="valor entrada">+ R$ {{ "%.2f"|format(t.valor) }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

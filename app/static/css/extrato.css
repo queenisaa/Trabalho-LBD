@@ -1,0 +1,118 @@
+.form-filtro {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro-grupo label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filtro-grupo input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--borda-raio);
+}
+
+.btn-filtro {
+    padding: 10px 20px;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: var(--borda-raio);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-filtro:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+}
+
+.header-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.botoes-exportar {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-exportar {
+    padding: 8px 15px;
+    border-radius: var(--borda-raio);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-exportar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0.9;
+}
+
+.btn-exportar.pdf {
+    background-color: #d9534f;
+}
+
+.btn-exportar.excel {
+    background-color: #1d6f42;
+}
+
+.tabela-container {
+    overflow-x: auto;
+}
+
+.tabela-extrato {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-extrato th,
+.tabela-extrato td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tabela-extrato th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.tabela-extrato td small {
+    color: #666;
+    font-size: 12px;
+}
+
+.tabela-extrato .valor {
+    text-align: right;
+    font-weight: bold;
+}
+
+.tabela-extrato .entrada {
+    color: var(--cor-sucesso);
+}
+
+.tabela-extrato .saida {
+    color: var(--cor-perigo);
+}
+
+.sem-transacoes {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+}

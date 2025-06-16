@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato - Banco Malvader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_cliente.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/extrato.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+    {% include 'components/header.html' %}
+    <main class="container-home">
+        {% include 'components/menu_lateral_cliente.html' %}
+        <section class="conteudo-principal">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>Extrato da Conta</h1>
+            <p>Consulte suas últimas movimentações ou filtre por um período específico.</p>
+
+            <div class="card">
+                <h2>Filtrar Período</h2>
+                <form class="form-filtro" method="GET" action="{{ url_for('cliente.extrato') }}">
+                    <div class="filtro-grupo">
+                        <label for="data_inicio">Data de Início:</label>
+                        <input type="date" id="data_inicio" name="data_inicio" value="{{ data_inicio or '' }}">
+                    </div>
+                    <div class="filtro-grupo">
+                        <label for="data_fim">Data de Fim:</label>
+                        <input type="date" id="data_fim" name="data_fim" value="{{ data_fim or '' }}">
+                    </div>
+                    <button type="submit" class="btn btn-filtro">Filtrar</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <div class="header-tabela">
+                    <h2>Transações</h2>
+                    <div class="botoes-exportar">
+                        <a href="{{ url_for('cliente.imprimir_extrato', data_inicio=data_inicio, data_fim=data_fim) }}" 
+                           class="btn-exportar pdf" 
+                           target="_blank">Imprimir / Salvar PDF</a>
+
+                        <a href="{{ url_for('cliente.exportar_excel', data_inicio=data_inicio, data_fim=data_fim) }}" class="btn-exportar excel">Exportar Excel</a>
+                    </div>
+                </div>
+                
+                <div class="tabela-container">
+                    <table class="tabela-extrato">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th class="valor">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in transacoes %}
+                            <tr>
+                                <td>{{ t.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
+                                <td>
+                                    <strong>{{ t.tipo_transacao }}</strong><br>
+                                    
+                                    {% if t.tipo_transacao == 'Transferencia' %}
+                                        {% if t.id_conta_origem == conta_id %}
+                                            <small>Para: {{ t.conta_destino.cliente.usuario.nome }}</small>
+                                        {% else %}
+                                            <small>De: {{ t.conta_origem.cliente.usuario.nome }}</small>
+                                        {% endif %}
+                                    {% else %}
+                                        <small>{{ t.descricao or '' }}</small>
+                                    {% endif %}
+                                </td>
+                                
+                                {% if t.id_conta_origem == conta_id %}
+                                    <td class="valor saida">- R$ {{ "%.2f"|format(t.valor) }}</td>
+                                {% else %}
+                                    <td class="valor entrada">+ R$ {{ "%.2f"|format(t.valor) }}</td>
+                                {% endif %}
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="sem-transacoes">Nenhuma transação encontrada para este período.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

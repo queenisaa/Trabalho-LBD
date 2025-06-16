@@ -1,0 +1,58 @@
+body { 
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; 
+    color: #333;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #000;
+}
+
+h2 { 
+    font-size: 18px;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+p {
+    font-size: 14px;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    font-size: 12px;
+}
+
+th, td { 
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+th { 
+    background-color: #f2f2f2; 
+}
+
+.valor { 
+    text-align: right; 
+    font-weight: bold;
+}
+
+.entrada { 
+    color: green; 
+}
+
+.saida { 
+    color: red; 
+}
+
+@media print {
+    body { 
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

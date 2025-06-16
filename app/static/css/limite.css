@@ -1,0 +1,53 @@
+.perfil-info {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+    font-size: 18px;
+    padding: 10px 0;
+}
+
+.perfil-info .score {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--cor-sucesso);
+}
+
+.info-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.limites-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card-limite h2 {
+    color: var(--cor-primaria);
+    margin-bottom: 15px;
+}
+
+.valor-limite {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--cor-primaria);
+    margin: 0 0 10px 0;
+}
+
+.valor-limite.projecao {
+    color: #0056b3; 
+}
+
+.card-limite small {
+    font-size: 14px;
+    color: #777;
+}
+
+@media (max-width: 768px) {
+    .limites-container {
+        grid-template-columns: 1fr;
+    }
+}
