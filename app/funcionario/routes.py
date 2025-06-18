@@ -1,5 +1,3 @@
-# app/funcionario/routes.py
-
 from flask import (Blueprint, render_template, request, redirect,
                    url_for, flash, session)
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,13 +8,13 @@ from functools import wraps
 import re
 import os
 
-# Importa os modelos, 'db', e a função 'func' do SQLAlchemy
+
 from app.models import (db, Usuario, Cliente, Funcionario, Conta, Agencia, Auditoria, 
                         HistoricoConta, ContaCorrente, ContaPoupanca, ContaInvestimento)
 from sqlalchemy import func
 from app.auth_services import enviar_email_otp
 
-# Cria o Blueprint do funcionário
+
 funcionario_bp = Blueprint('funcionario', __name__, template_folder='templates')
 
 # --- DECORADOR DE AUTENTICAÇÃO E CONTEXTO ---
@@ -140,7 +138,6 @@ def abertura_conta():
 def cadastro_funcionario():
     if request.method == 'POST':
         try:
-            # Validações e lógica de criação de funcionário
             cpf_limpo = re.sub(r'\D', '', request.form.get('cpf'))
             if len(cpf_limpo) != 11 or not cpf_limpo.isdigit(): raise ValueError("CPF inválido.")
             if Usuario.query.filter_by(CPF=cpf_limpo).first(): raise ValueError("Este CPF já está cadastrado.")
