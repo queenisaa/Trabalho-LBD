@@ -1,5 +1,4 @@
 from app import create_app, db
-# Importa todos os modelos necessários
 from app.models import (Usuario, Cliente, Funcionario, Agencia, Conta, Endereco, 
                         ContaCorrente, ContaPoupanca, ContaInvestimento, HistoricoConta)
 from werkzeug.security import generate_password_hash
@@ -11,7 +10,6 @@ app = create_app()
 def seed_data():
     with app.app_context():
         print("Limpando dados antigos...")
-        # A ordem de limpeza é importante por causa das chaves estrangeiras
         db.session.query(HistoricoConta).delete()
         db.session.query(ContaInvestimento).delete()
         db.session.query(ContaCorrente).delete()
