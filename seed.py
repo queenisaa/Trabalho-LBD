@@ -1,9 +1,7 @@
-# seed.py
-
 from app import create_app, db
 # Importa todos os modelos necessários
-from models import (Usuario, Cliente, Agencia, Conta, Endereco, 
-                    ContaCorrente, ContaPoupanca)
+from app.models import (Usuario, Cliente, Funcionario, Agencia, Conta, Endereco, 
+                        ContaCorrente, ContaPoupanca, ContaInvestimento, HistoricoConta)
 from werkzeug.security import generate_password_hash
 from datetime import date
 from decimal import Decimal
@@ -14,9 +12,12 @@ def seed_data():
     with app.app_context():
         print("Limpando dados antigos...")
         # A ordem de limpeza é importante por causa das chaves estrangeiras
+        db.session.query(HistoricoConta).delete()
+        db.session.query(ContaInvestimento).delete()
         db.session.query(ContaCorrente).delete()
         db.session.query(ContaPoupanca).delete()
         db.session.query(Conta).delete()
+        db.session.query(Funcionario).delete()
         db.session.query(Cliente).delete()
         db.session.query(Agencia).delete()
         db.session.query(Endereco).delete()
@@ -33,64 +34,57 @@ def seed_data():
         db.session.commit()
         print(" -> Agência '0001' criada.")
 
-        # --- USUÁRIO 1: CONTA CORRENTE (Nathanael) ---
-        print("\nCriando o primeiro cliente com Conta Corrente...")
-        usuario_1 = Usuario(
-            nome='Nathanael (Vader)', 
-            CPF='11111111111',
+        # --- USUÁRIO 1: CONTA POUPANÇA (CLIENTE) ---
+        print("\nCriando usuário Cliente de teste...")
+        usuario_cliente = Usuario(
+            nome='Nathanael Cliente', 
+            CPF='111111', # CPF ajustado
             data_nascimento=date(1990, 1, 1), 
             telefone='(11) 91111-1111', 
-            email='nathanaelmagno000@gmail.com', 
+            email='nathanaelvictor000@gmail.com', # E-mail ajustado
             tipo_usuario='Cliente', 
-            senha_hash=generate_password_hash('senha123')
+            senha_hash=generate_password_hash('cliente123')
         )
-        db.session.add(usuario_1)
+        db.session.add(usuario_cliente)
         db.session.commit()
 
-        cliente_1 = Cliente(id_usuario=usuario_1.id_usuario, score_credito=750.00)
-        db.session.add(cliente_1)
+        cliente = Cliente(id_usuario=usuario_cliente.id_usuario, score_credito=800.00)
+        db.session.add(cliente)
         db.session.commit()
 
-        conta_1 = ContaCorrente(
-            numero_conta='12345-6',
-            saldo=10000.00,
-            status='Ativa',
-            id_agencia=agencia_central.id_agencia,
-            id_cliente=cliente_1.id_cliente,
-            limite_cheque_especial=Decimal('500.00'),
-            taxa_manutencao=Decimal('15.00')
-        )
-        db.session.add(conta_1)
-        print(" -> Usuário 'Nathanael (Vader)' e Conta Corrente '12345-6' criados.")
-
-        # --- USUÁRIO 2: CONTA POUPANÇA (Isabela) ---
-        print("\nCriando o segundo cliente com Conta Poupança...")
-        usuario_2 = Usuario(
-            nome='Isabela (Leia)', 
-            CPF='22222222222', # CPF ALTERADO
-            data_nascimento=date(1992, 2, 2), 
-            telefone='(11) 94444-4444', 
-            email='Isabelamb046@gmail.com', 
-            tipo_usuario='Cliente', 
-            senha_hash=generate_password_hash('senha456')
-        )
-        db.session.add(usuario_2)
-        db.session.commit()
-
-        cliente_2 = Cliente(id_usuario=usuario_2.id_usuario, score_credito=820.00)
-        db.session.add(cliente_2)
-        db.session.commit()
-
-        conta_2 = ContaPoupanca(
+        conta_poupanca = ContaPoupanca(
             numero_conta='11223-3',
             saldo=7500.00,
             status='Ativa',
             id_agencia=agencia_central.id_agencia,
-            id_cliente=cliente_2.id_cliente,
-            taxa_rendimento=Decimal('0.05') # Campo específico da Poupança
+            id_cliente=cliente.id_cliente,
+            taxa_rendimento=Decimal('0.05')
         )
-        db.session.add(conta_2)
-        print(" -> Usuário 'Isabela (Leia)' e Conta Poupança '11223-3' criados.")
+        db.session.add(conta_poupanca)
+        print(" -> Usuário 'Nathanael Cliente' e Conta Poupança '11223-3' criados.")
+
+        # --- USUÁRIO 2: FUNCIONÁRIO (GERENTE) ---
+        print("\nCriando usuário Funcionário (Gerente)...")
+        usuario_funcionario = Usuario(
+            nome='Nathanael Funcionário', 
+            CPF='222222', # CPF ajustado
+            data_nascimento=date(1992, 2, 2), 
+            telefone='(11) 92222-2222', 
+            email='nathanaelmagno000@gmail.com', # E-mail ajustado
+            tipo_usuario='Funcionario', 
+            senha_hash=generate_password_hash('func123')
+        )
+        db.session.add(usuario_funcionario)
+        db.session.commit()
+
+        gerente = Funcionario(
+            id_usuario=usuario_funcionario.id_usuario,
+            codigo_funcionario='FUNC001',
+            cargo='Gerente'
+        )
+        db.session.add(gerente)
+        db.session.commit()
+        print(" -> Usuário 'Nathanael Funcionário' criado.")
 
         db.session.commit()
         print("\nBanco de dados populado com sucesso!")

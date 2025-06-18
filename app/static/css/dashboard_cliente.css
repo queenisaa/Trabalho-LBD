@@ -68,3 +68,7 @@
 .rendimento-valor {
     color: var(--cor-sucesso);
 }
+
+.perfil-risco {
+    color: #0056b3; /* Um azul para destacar */
+}

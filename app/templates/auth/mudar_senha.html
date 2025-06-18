@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Alterar Senha - Banco Malvader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+    <!-- O contêiner principal agora usa a nova classe para centralização -->
+    <main class="centered-container">
+        <!-- Removido o 'right-side' desnecessário -->
+        <form class="login-form" method="POST" action="{{ url_for('auth.mudar_senha') }}">
+            <h2>Crie sua Nova Senha</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Esta será sua senha definitiva de acesso.</p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <label for="nova_senha">Nova Senha:</label>
+            <input type="password" id="nova_senha" name="nova_senha" required minlength="6">
+
+            <label for="confirmar_senha">Confirme a Nova Senha:</label>
+            <input type="password" id="confirmar_senha" name="confirmar_senha" required minlength="6">
+
+            <button type="submit" class="btn blue" style="width: 100%;">Definir Nova Senha</button>
+        </form>
+    </main>
+</body>
+</html>

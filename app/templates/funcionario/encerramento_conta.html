@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Encerramento de Conta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/abertura_conta.css') }}">
+</head>
+<body>
+    {% include 'components/header.html' %}
+    <main class="container-home">
+        {% include 'components/menu_lateral_funcionario.html' %}
+        <section class="conteudo-principal">
+            <h1>Encerramento de Conta</h1>
+            <p>Busque pela conta do cliente para iniciar o processo de encerramento.</p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card">
+                <h2>Buscar Conta</h2>
+                <form method="POST" action="{{ url_for('funcionario.encerramento_conta') }}">
+                    <div class="form-grid" style="grid-template-columns: 2fr 1fr;">
+                        <div class="form-group">
+                            <label for="numero_conta">Número da Conta do Cliente</label>
+                            <input type="text" id="numero_conta" name="numero_conta" required>
+                        </div>
+                        <div class="form-group" style="align-self: flex-end;">
+                            <button type="submit" class="btn-principal" style="background-color: var(--cor-secundaria);">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if conta %}
+            <div class="card">
+                <h2>Detalhes da Conta a Encerrar</h2>
+                <div class="detalhes-cliente">
+                    <p><strong>Cliente:</strong> {{ conta.cliente.usuario.nome }}</p>
+                    <p><strong>CPF:</strong> {{ conta.cliente.usuario.CPF }}</p>
+                    <p><strong>Saldo Atual:</strong> <strong style="color: {{ 'green' if conta.saldo == 0 else 'red' }};">R$ {{ "%.2f"|format(conta.saldo) }}</strong></p>
+                </div>
+                
+                {% if conta.saldo == 0 %}
+                    <form method="POST" action="{{ url_for('funcionario.iniciar_encerramento') }}">
+                        <input type="hidden" name="id_conta" value="{{ conta.id_conta }}">
+                        <div class="form-group">
+                            <label for="motivo">Motivo do Encerramento</label>
+                            <select id="motivo" name="motivo" required>
+                                <option value="Solicitação do cliente">Solicitação do cliente</option>
+                                <option value="Inadimplência">Inadimplência</option>
+                                <option value="Suspeita de fraude">Suspeita de fraude</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-principal btn-danger">Prosseguir para Confirmação</button>
+                    </form>
+                {% else %}
+                    <p class="alert alert-danger">A conta não pode ser encerrada. O saldo precisa ser R$ 0,00.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

@@ -2,37 +2,37 @@
     <div class="menu-links">
         <ul>
             <li>
-                <a href="{{ url_for('main.dashboard_cliente') }}"
+                <a href="{{ url_for('cliente.dashboard') }}"
                     class="{{ 'active' if request.endpoint == 'main.dashboard_cliente' else '' }}">
                     Minha Conta
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('main.extrato') }}"
+                <a href="{{ url_for('cliente.extrato') }}"
                    class="{{ 'active' if request.endpoint == 'main.extrato' else '' }}">
                    Saldo e Extrato
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('main.deposito') }}"
+                <a href="{{ url_for('cliente.deposito') }}"
                     class="{{ 'active' if request.endpoint == 'main.deposito' else '' }}">
                     Depósito
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('main.saque') }}"
+                <a href="{{ url_for('cliente.saque') }}"
                     class="{{ 'active' if request.endpoint == 'main.saque' else '' }}">
                     Saque
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('main.transferencia') }}"
+                <a href="{{ url_for('cliente.transferencia') }}"
                     class="{{ 'active' if request.endpoint == 'main.transferencia' else '' }}">
                     Transferência
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('main.limite') }}"
+                <a href="{{ url_for('cliente.limite') }}"
                    class="{{ 'active' if request.endpoint == 'main.limite' else '' }}">
                    Consultar Limite
                 </a>
@@ -40,6 +40,6 @@
         </ul>
     </div>
     <div class="logout-link">
-        <a href="{{ url_for('main.logout') }}">Encerrar Sessão</a>
+        <a href="{{ url_for('auth.logout') }}">Encerrar Sessão</a>
     </div>
 </nav>

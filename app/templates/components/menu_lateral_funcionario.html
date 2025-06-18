@@ -1,0 +1,25 @@
+<nav class="menu-lateral">
+  <div class="menu-links">
+    <ul>
+      <li><a href="{{ url_for('funcionario.dashboard') }}">Menu Principal</a></li>
+      <li><a href="{{ url_for('funcionario.abertura_conta') }}"
+          class="{{ 'active' if request.endpoint == 'funcionario.abertura_conta' }}">Abertura de Conta</a></li>
+      {% if cargo == 'Gerente' %}
+      <li>
+        <a href="{{ url_for('funcionario.cadastro_funcionario') }}"
+          class="{{ 'active' if 'cadastro_funcionario' in request.endpoint }}">
+          Cadastro de Funcionários
+        </a>
+      </li>
+      {% endif %}
+
+      <li><a href="{{ url_for('funcionario.encerramento_conta') }}" class="{{ 'active' if 'encerramento_conta' in request.endpoint }}">Encerramento de Conta</a></li>
+      <li><a href="#">Consultar Dados</a></li>
+      <li><a href="#">Alterar Dados</a></li>
+      <li><a href="#">Geração de Relatórios</a></li>
+    </ul>
+  </div>
+  <div class="logout-link">
+    <a href="{{ url_for('auth.logout') }}">Encerrar Sessão</a>
+  </div>
+</nav>

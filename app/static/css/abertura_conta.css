@@ -1,0 +1,70 @@
+/* static/css/abertura_conta.css */
+
+.btn-principal {
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: var(--cor-sucesso);
+    color: white;
+    border: none;
+    border-radius: var(--borda-raio);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-principal:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* --- NOVA REGRA ADICIONADA --- */
+.btn-prosseguir {
+    margin-top: 20px; /* Adiciona um espaço acima do botão */
+    background-color: var(--cor-perigo);
+}
+
+.form-abertura .card {
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: var(--borda-raio);
+    font-size: 16px;
+}
+
+.campos-especificos {
+    display: none; /* Começam escondidos */
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
+}
+
+.campos-especificos h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--cor-secundaria);
+}
+
+.btn-danger {
+    margin-top: 20px; /* Adiciona o espaçamento que você queria */
+    background-color: var(--cor-perigo); /* Usa a variável de cor vermelha */
+}

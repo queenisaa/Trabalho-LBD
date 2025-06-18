@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Malvader - Área do Funcionário</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_funcionario.css') }}" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/darth.png') }}" />
+</head>
+<body>
+  
+  {% include 'components/header.html' %}
+
+  <main class="container-home">
+    
+    {% include 'components/menu_lateral_funcionario.html' %}
+
+    <section class="conteudo-principal">
+      <h1>Painel de Controle, {{ nome_usuario }}!</h1>
+      <p>Selecione uma das operações abaixo para começar. (Cargo: {{ cargo }})</p>
+
+      <div class="card">
+        <h2>Gerenciamento de Contas</h2>
+        <div class="atalhos">
+          <a href="#" class="btn-atalho">Nova Abertura de Conta (CP, CC, CI)</a>
+          <a href="#" class="btn-atalho">Solicitar Encerramento de Conta</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Administrativo e Consultas</h2>
+        <div class="atalhos">
+          <a href="#" class="btn-atalho">Consultar Dados (Cliente/Conta)</a>
+          <a href="#" class="btn-atalho">Alterar Dados (Cliente/Conta)</a>
+          <a href="#" class="btn-atalho">Cadastrar Novo Funcionário</a>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>Análises e Relatórios</h2>
+        <div class="atalhos">
+            <a href="#" class="btn-atalho">Gerar Relatório Gerencial (PDF/Excel)</a>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>

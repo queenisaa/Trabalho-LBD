@@ -31,7 +31,7 @@
         <a id="botaoFuncionario" class="btn gray" href="#" onclick="showLoginForm('Funcionario')">Login Funcionário</a>
       </div>
 
-      <form class="login-form" method="POST" id="form-login" action="{{ url_for('main.login') }}" style="display: none;">
+      <form class="login-form" method="POST" id="form-login" action="{{ url_for('auth.login') }}" style="display: none;">
 
         <a id="botao-voltar" onclick="showAccessChoice()">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">

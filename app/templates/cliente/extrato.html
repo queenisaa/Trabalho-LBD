@@ -26,7 +26,7 @@
 
             <div class="card">
                 <h2>Filtrar Período</h2>
-                <form class="form-filtro" method="GET" action="{{ url_for('main.extrato') }}">
+                <form class="form-filtro" method="GET" action="{{ url_for('cliente.extrato') }}">
                     <div class="filtro-grupo">
                         <label for="data_inicio">Data de Início:</label>
                         <input type="date" id="data_inicio" name="data_inicio" value="{{ data_inicio or '' }}">
@@ -43,11 +43,11 @@
                 <div class="header-tabela">
                     <h2>Transações</h2>
                     <div class="botoes-exportar">
-                        <a href="{{ url_for('main.imprimir_extrato', data_inicio=data_inicio, data_fim=data_fim) }}" 
+                        <a href="{{ url_for('cliente.imprimir_extrato', data_inicio=data_inicio, data_fim=data_fim) }}" 
                            class="btn-exportar pdf" 
                            target="_blank">Imprimir / Salvar PDF</a>
 
-                        <a href="{{ url_for('main.exportar_excel', data_inicio=data_inicio, data_fim=data_fim) }}" class="btn-exportar excel">Exportar Excel</a>
+                        <a href="{{ url_for('cliente.exportar_excel', data_inicio=data_inicio, data_fim=data_fim) }}" class="btn-exportar excel">Exportar Excel</a>
                     </div>
                 </div>
                 

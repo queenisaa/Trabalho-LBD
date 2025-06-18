@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abertura de Conta - Funcionário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/abertura_conta.css') }}">
+</head>
+<body>
+    {% include 'components/header.html' %}
+    <main class="container-home">
+        {% include 'components/menu_lateral_funcionario.html' %}
+        <section class="conteudo-principal">
+            <h1>Abertura de Nova Conta</h1>
+            <p>Preencha os dados abaixo para criar uma nova conta para o cliente.</p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="form-abertura">
+                <div class="card">
+                    <h2>Dados Pessoais do Cliente</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpf">CPF</label>
+                            <input type="text" id="cpf" name="cpf" required 
+                                   pattern="\d{11}" title="O CPF deve conter exatamente 11 números, sem pontos ou traços."
+                                   maxlength="11" minlength="11">
+                        </div>
+                        <div class="form-group">
+                            <label for="data_nascimento">Data de Nascimento</label>
+                            <input type="date" id="data_nascimento" name="data_nascimento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone com DDD</label>
+                            <input type="tel" id="telefone" name="telefone" required
+                                   pattern="\d{10,11}" title="Digite o DDD e o número, contendo 10 ou 11 dígitos."
+                                   maxlength="11" minlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="senha">Senha Provisória</label>
+                            <input type="password" id="senha" name="senha" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Tipo e Detalhes da Conta</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tipo_conta">Tipo de Conta</label>
+                            <select id="tipo_conta" name="tipo_conta" onchange="toggleAccountFields()" required>
+                                <option value="">Selecione...</option>
+                                <option value="Corrente">Conta Corrente</option>
+                                <option value="Poupanca">Conta Poupança</option>
+                                <option value="Investimento">Conta Investimento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="saldo_inicial">Depósito Inicial (R$)</label>
+                            <input type="number" id="saldo_inicial" name="saldo_inicial" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- Campos Específicos da Conta -->
+                    <div id="campos_cc" class="campos-especificos">
+                        <h3>Detalhes da Conta Corrente</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="limite_cheque_especial">Limite do Cheque Especial (R$)</label>
+                                <input type="number" id="limite_cheque_especial" name="limite_cheque_especial" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="taxa_manutencao">Taxa de Manutenção Mensal (R$)</label>
+                                <input type="number" id="taxa_manutencao" name="taxa_manutencao" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="campos_cp" class="campos-especificos">
+                        <h3>Detalhes da Conta Poupança</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="taxa_rendimento">Taxa de Rendimento Anual (%)</label>
+                                <input type="number" id="taxa_rendimento" name="taxa_rendimento" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="campos_ci" class="campos-especificos">
+                        <h3>Detalhes da Conta de Investimento</h3>
+                         <div class="form-grid">
+                            <div class="form-group">
+                                <label for="perfil_risco">Perfil de Risco</label>
+                                <select id="perfil_risco" name="perfil_risco">
+                                    <option value="Baixo">Baixo</option>
+                                    <option value="Medio">Médio</option>
+                                    <option value="Alto">Alto</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="valor_minimo_deposito">Valor Mínimo de Depósito (R$)</label>
+                                <input type="number" id="valor_minimo_deposito" name="valor_minimo_deposito" step="0.01">
+                            </div>
+                             <div class="form-group">
+                                <label for="taxa_rendimento_base">Taxa de Rendimento Base Anual (%)</label>
+                                <input type="number" id="taxa_rendimento_base" name="taxa_rendimento_base" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-principal">Abrir Conta</button>
+            </form>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/abertura_conta.js') }}"></script>
+</body>
+</html>
