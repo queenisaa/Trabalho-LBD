@@ -41,7 +41,7 @@ def seed_data():
             CPF='111111', # CPF ajustado
             data_nascimento=date(1990, 1, 1), 
             telefone='(11) 91111-1111', 
-            email='nathanaelvictor000@gmail.com', # E-mail ajustado
+            email='nathanaelvictor000@gmail.com', 
             tipo_usuario='Cliente', 
             senha_hash=generate_password_hash('cliente123')
         )
@@ -70,7 +70,7 @@ def seed_data():
             CPF='222222', # CPF ajustado
             data_nascimento=date(1992, 2, 2), 
             telefone='(11) 92222-2222', 
-            email='nathanaelmagno000@gmail.com', # E-mail ajustado
+            email='nathanaelmagno000@gmail.com', 
             tipo_usuario='Funcionario', 
             senha_hash=generate_password_hash('func123')
         )
