@@ -1,5 +1,3 @@
-# app.py
-
 # ================== IMPORTAÇÕES ==================
 import os
 import random
@@ -8,14 +6,12 @@ from functools import wraps
 from decimal import Decimal
 import io
 
-# Flask e extensões
 from flask import (Flask, Blueprint, render_template, request, redirect,
                    url_for, flash, session, send_file)
 from flask_migrate import Migrate
 from werkzeug.security import check_password_hash
 from sqlalchemy import or_, func
 
-# Módulos locais
 from app.config import Config
 from app.models import db, Usuario, Cliente, Conta, Transacao, ContaCorrente, ContaPoupanca, ContaInvestimento, Auditoria
 from app.auth_services import enviar_email_otp
@@ -82,7 +78,6 @@ def login():
     if len(falhas_recentes) >= TENTATIVAS_MAXIMAS:
         ultima_falha_time = falhas_recentes[0].data_hora
 
-        # <<< CORREÇÃO APLICADA AQUI >>>
         # Garante que a data do banco de dados seja "aware" (ciente do fuso horário) antes de comparar.
         if ultima_falha_time.tzinfo is None:
             ultima_falha_time = ultima_falha_time.replace(tzinfo=timezone.utc)
@@ -169,7 +164,7 @@ def dashboard_cliente():
 
     if conta:
         saldo_atual = conta.saldo
-        # LÓGICA ATUALIZADA para incluir ContaInvestimento
+      
         if isinstance(conta, ContaCorrente):
             detalhes_conta = {'limite_cheque_especial': conta.limite_cheque_especial}
         elif isinstance(conta, ContaPoupanca):
@@ -208,12 +203,11 @@ def deposito():
             if valor <= 0:
                 raise ValueError("O valor do depósito deve ser positivo.")
             
-            # REGRA: Validação de depósito mínimo para Conta de Investimento
+      
             if isinstance(conta, ContaInvestimento):
                 if valor < conta.valor_minimo_deposito:
                     raise ValueError(f"O valor mínimo para depósito nesta conta é de R$ {conta.valor_minimo_deposito:.2f}.")
 
-            # ... (resto da lógica de limite diário e depósito continua igual) ...
             hoje_inicio = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             depositos_hoje = db.session.query(func.sum(Transacao.valor)).filter(Transacao.id_conta_destino == conta.id_conta, Transacao.tipo_transacao == 'Deposito', Transacao.data_hora >= hoje_inicio).scalar() or Decimal('0')
             if depositos_hoje + valor > LIMITE_DIARIO_DEPOSITO:
