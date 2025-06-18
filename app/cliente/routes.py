@@ -77,7 +77,6 @@ def deposito():
 
             if depositos_recentes + valor > LIMITE_DIARIO_DEPOSITO:
                 raise ValueError(f"Limite de depósito de R$ {LIMITE_DIARIO_DEPOSITO:.2f} nas últimas 24 horas foi excedido.")
-            # ----------------------------------------------
 
             conta.saldo += valor
             db.session.add(Transacao(tipo_transacao='Deposito', valor=valor, descricao="Depósito em conta", id_conta_destino=conta.id_conta))
@@ -271,4 +270,3 @@ def exportar_excel():
         as_attachment=True,
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-

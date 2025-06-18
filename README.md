@@ -99,7 +99,7 @@ python seed.py
 ### Passo 3: Executar a Aplicação
 Com tudo configurado, inicie o servidor Flask com o comando:
 ```bash
-python run.py
+flask run
 ```
 
 A aplicação estará disponível no seu navegador no endereço http://127.0.0.1:5000.

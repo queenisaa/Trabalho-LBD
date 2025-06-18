@@ -1,3 +1,4 @@
+# app/models.py
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.mysql import ENUM
 from datetime import datetime, timezone
@@ -16,6 +17,7 @@ class Usuario(db.Model):
     senha_hash = db.Column(db.String(255), nullable=False)
     otp_ativo = db.Column(db.String(6))
     otp_expiracao = db.Column(db.DateTime)
+    senha_provisoria = db.Column(db.Boolean, default=True, nullable=False)
 
     cliente = db.relationship('Cliente', back_populates='usuario', uselist=False, cascade="all, delete-orphan")
     funcionario = db.relationship('Funcionario', back_populates='usuario', uselist=False, cascade="all, delete-orphan")
@@ -28,18 +30,22 @@ class Funcionario(db.Model):
     cargo = db.Column(ENUM('Estagiario', 'Atendente', 'Gerente'), nullable=False)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False, unique=True)
     id_supervisor = db.Column(db.Integer, db.ForeignKey('funcionario.id_funcionario'))
+    
     usuario = db.relationship('Usuario', back_populates='funcionario')
     supervisor = db.relationship('Funcionario', remote_side=[id_funcionario], back_populates='subordinados')
     subordinados = db.relationship('Funcionario', back_populates='supervisor')
     relatorios = db.relationship('Relatorio', back_populates='funcionario')
+    historico_acoes = db.relationship('HistoricoConta', back_populates='funcionario_responsavel', foreign_keys='HistoricoConta.id_funcionario_responsavel')
 
 class Cliente(db.Model):
     __tablename__ = 'cliente'
     id_cliente = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False, unique=True)
     score_credito = db.Column(db.Numeric(5, 2), default=0)
+    
     usuario = db.relationship('Usuario', back_populates='cliente')
     contas = db.relationship('Conta', back_populates='cliente', cascade="all, delete-orphan")
+    # A relação incorreta com 'HistoricoConta' foi REMOVIDA daqui.
 
 class Endereco(db.Model):
     __tablename__ = 'endereco'
@@ -66,14 +72,17 @@ class Conta(db.Model):
     numero_conta = db.Column(db.String(20), unique=True, nullable=False)
     saldo = db.Column(db.Numeric(15, 2), nullable=False, default=0)
     tipo_conta = db.Column(ENUM('Poupanca', 'Corrente', 'Investimento'), nullable=False)
-    data_abertura = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    data_abertura = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     status = db.Column(ENUM('Ativa', 'Encerrada', 'Bloqueada'), nullable=False, default='Ativa')
     id_agencia = db.Column(db.Integer, db.ForeignKey('agencia.id_agencia'), nullable=False)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    
     agencia = db.relationship('Agencia', back_populates='contas')
     cliente = db.relationship('Cliente', back_populates='contas')
     transacoes_origem = db.relationship('Transacao', foreign_keys='Transacao.id_conta_origem', back_populates='conta_origem')
     transacoes_destino = db.relationship('Transacao', foreign_keys='Transacao.id_conta_destino', back_populates='conta_destino')
+    historico = db.relationship('HistoricoConta', back_populates='conta', cascade="all, delete-orphan") # Relação correta
+    
     __mapper_args__ = {'polymorphic_on': tipo_conta}
 
 class ContaPoupanca(Conta):
@@ -106,21 +115,30 @@ class Transacao(db.Model):
     id_transacao = db.Column(db.Integer, primary_key=True)
     tipo_transacao = db.Column(ENUM('Deposito', 'Saque', 'Transferencia', 'Pagamento', 'Rendimento'), nullable=False)
     valor = db.Column(db.Numeric(15, 2), nullable=False)
-    data_hora = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
     descricao = db.Column(db.String(100))
     id_conta_origem = db.Column(db.Integer, db.ForeignKey('conta.id_conta'))
     id_conta_destino = db.Column(db.Integer, db.ForeignKey('conta.id_conta'))
     conta_origem = db.relationship('Conta', foreign_keys=[id_conta_origem], back_populates='transacoes_origem')
     conta_destino = db.relationship('Conta', foreign_keys=[id_conta_destino], back_populates='transacoes_destino')
 
+class HistoricoConta(db.Model):
+    __tablename__ = 'historico_conta'
+    id = db.Column(db.Integer, primary_key=True)
+    id_conta = db.Column(db.Integer, db.ForeignKey('conta.id_conta'), nullable=False)
+    id_funcionario_responsavel = db.Column(db.Integer, db.ForeignKey('funcionario.id_funcionario'), nullable=False)
+    acao = db.Column(ENUM('Abertura', 'Encerramento'), nullable=False)
+    motivo = db.Column(db.String(255), nullable=True)
+    data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+    conta = db.relationship('Conta', back_populates='historico')
+    funcionario_responsavel = db.relationship('Funcionario', back_populates='historico_acoes', foreign_keys=[id_funcionario_responsavel])
+
 class Auditoria(db.Model):
     __tablename__ = 'auditoria'
     id_auditoria = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False)
     acao = db.Column(db.String(50), nullable=False)
-    
     data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
-    
     detalhes = db.Column(db.Text)
     usuario = db.relationship('Usuario', back_populates='auditorias')
 
@@ -129,6 +147,6 @@ class Relatorio(db.Model):
     id_relatorio = db.Column(db.Integer, primary_key=True)
     id_funcionario = db.Column(db.Integer, db.ForeignKey('funcionario.id_funcionario'), nullable=False)
     tipo_relatorio = db.Column(db.String(50), nullable=False)
-    data_geracao = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    data_geracao = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     conteudo = db.Column(db.Text, nullable=False)
     funcionario = db.relationship('Funcionario', back_populates='relatorios')
