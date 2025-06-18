@@ -1,4 +1,3 @@
-# app/models.py
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.mysql import ENUM
 from datetime import datetime, timezone
@@ -19,7 +18,6 @@ class Usuario(db.Model):
     otp_expiracao = db.Column(db.DateTime)
     senha_provisoria = db.Column(db.Boolean, default=True, nullable=False)
 
-    # Relacionamentos
     cliente = db.relationship('Cliente', back_populates='usuario', uselist=False, cascade="all, delete-orphan")
     funcionario = db.relationship('Funcionario', back_populates='usuario', uselist=False, cascade="all, delete-orphan")
     auditorias = db.relationship('Auditoria', back_populates='usuario')
@@ -32,7 +30,6 @@ class Funcionario(db.Model):
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False, unique=True)
     id_supervisor = db.Column(db.Integer, db.ForeignKey('funcionario.id_funcionario'))
     
-    # Relacionamentos
     usuario = db.relationship('Usuario', back_populates='funcionario')
     supervisor = db.relationship('Funcionario', remote_side=[id_funcionario], back_populates='subordinados')
     subordinados = db.relationship('Funcionario', back_populates='supervisor')
@@ -45,7 +42,6 @@ class Cliente(db.Model):
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False, unique=True)
     score_credito = db.Column(db.Numeric(5, 2), default=0)
     
-    # Relacionamentos
     usuario = db.relationship('Usuario', back_populates='cliente')
     contas = db.relationship('Conta', back_populates='cliente', cascade="all, delete-orphan")
 
@@ -66,7 +62,6 @@ class Agencia(db.Model):
     codigo_agencia = db.Column(db.String(10), unique=True, nullable=False)
     id_endereco = db.Column(db.Integer, db.ForeignKey('endereco.id_endereco'), nullable=False)
     
-    # Relacionamentos
     endereco = db.relationship('Endereco')
     contas = db.relationship('Conta', back_populates='agencia')
 
@@ -80,8 +75,7 @@ class Conta(db.Model):
     status = db.Column(ENUM('Ativa', 'Encerrada', 'Bloqueada'), nullable=False, default='Ativa')
     id_agencia = db.Column(db.Integer, db.ForeignKey('agencia.id_agencia'), nullable=False)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
-    
-    # Relacionamentos
+
     agencia = db.relationship('Agencia', back_populates='contas')
     cliente = db.relationship('Cliente', back_populates='contas')
     transacoes_origem = db.relationship('Transacao', foreign_keys='Transacao.id_conta_origem', back_populates='conta_origem')
