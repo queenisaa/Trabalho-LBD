@@ -1,12 +1,10 @@
-# app/auth/routes.py
-
 import os
 import random
 from datetime import datetime, timedelta, timezone
 from flask import (Blueprint, render_template, request, redirect, url_for, flash, session)
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# Importações corrigidas para a nova estrutura
+
 from app.models import db, Usuario, Auditoria
 from app.auth_services import enviar_email_otp
 
@@ -37,15 +35,12 @@ def login():
         flash('CPF, senha ou tipo de usuário inválidos.', 'danger')
         return redirect(url_for('auth.index'))
 
-    # Lógica de bloqueio...
-    # (aqui a lógica continua a mesma)
-
     print(f"[DEBUG] Senha recebida do formulário: '{senha_recebida}'")
     
-    # Verificação da senha
+
     senha_correta = check_password_hash(usuario.senha_hash, senha_recebida)
     
-    print(f"[DEBUG] Resultado da verificação da senha: {senha_correta}") # <-- DIAGNÓSTICO IMPORTANTE
+    print(f"[DEBUG] Resultado da verificação da senha: {senha_correta}")
 
     if senha_correta:
         print("[DEBUG] SUCESSO: Senha correta. Prosseguindo para OTP.")
@@ -63,15 +58,12 @@ def login():
             return redirect(url_for('auth.index'))
     else:
         print("[DEBUG] FALHA: Senha incorreta.")
-        # Lógica de falha...
-        # ...
         flash('CPF, senha ou tipo de usuário inválidos.', 'danger')
         return redirect(url_for('auth.index'))
 
 
 @auth_bp.route('/verify_otp', methods=['GET', 'POST'])
 def verify_otp():
-    # ... (código existente)
     if 'id_usuario_para_verificar' not in session:
         return redirect(url_for('auth.index'))
     user_id = session['id_usuario_para_verificar']
